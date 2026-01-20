@@ -1,23 +1,636 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
+  <!-- JSON-LD Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "34평 아파트 리모델링 서비스",
+      "provider": {
+        "@type": "Organization",
+        "name": "34평 리모델링 전문 인테리어",
+        "url": "https://yourdomain.com",
+        "logo": "https://yourdomain.com/logo.png"
+      },
+      "areaServed": {
+        "@type": "State",
+        "name": "대한민국"
+      },
+      "description": "34평 아파트 맞춤형 리모델링 전문 서비스입니다. 전체 올수리부터 주방, 욕실 부분 리모델링까지 고객 맞춤형 솔루션을 제공합니다.",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "34평 아파트 리모델링 견적 옵션",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "34평 전체 리모델링 (올수리)"
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "50000000",
+              "priceCurrency": "KRW",
+              "description": "2026년 기준 34평 아파트 전체 올수리 평균 비용입니다. 자재 및 범위에 따라 변동될 수 있습니다."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "34평 부분 리모델링 (주방+욕실)"
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "20000000",
+              "priceCurrency": "KRW",
+              "description": "주방, 욕실 2곳 등 핵심 공간만 부분적으로 진행하는 리모델링 서비스입니다."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "@id": "https://yourdomain.com/34ton_remodeling_consulting",
+              "name": "34평 리모델링 컨설팅 및 견적"
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "0",
+              "priceCurrency": "KRW",
+              "description": "전문가 1:1 맞춤형 무료 견적 상담 서비스입니다."
+            }
+          }
+        ]
+      },
+      "url": "https://yourdomain.com"
+    }
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+        /* Reset and Base Styles */
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            background-color: #f7f9fc; /* Soft background color */
+            color: #333;
+            font-size: 16px;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header and Navigation */
+        header {
+            background-color: #2c3e50; /* Deep blue-gray for professionalism */
+            color: white;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 5px solid #007bff; /* Accent color line */
+        }
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin: 0;
+            letter-spacing: -1px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            line-height: 1.3;
+        }
+        .header-subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-top: 0.8rem;
+            color: #e0eaf4;
+        }
+        nav {
+            margin-top: 2rem;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        nav a {
+            color: #e0eaf4;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 1rem;
+        }
+        nav a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* Main Content Layout */
+        main {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        section {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+            margin-bottom: 2.5rem;
+        }
+        section:last-child {
+            margin-bottom: 0;
+        }
+        h2 {
+            color: #007bff;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #e0e0e0;
+        }
+        h3 {
+            color: #4a4a4a;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-left: 5px solid #ff6f61;
+            padding-left: 1rem;
+        }
+        p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        /* Tables and Data Presentation */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        th, td {
+            padding: 1.2rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 1rem;
+        }
+        th {
+            background-color: #e3f2fd; /* Light blue header */
+            color: #007bff;
+            font-weight: 700;
+        }
+        td {
+            background-color: #ffffff;
+        }
+        tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+        .price-highlight {
+            font-weight: 700;
+            color: #ff6f61; /* Accent color */
+            font-size: 1.2rem;
+        }
+
+        /* Call to Action */
+        .cta-button {
+            display: inline-block;
+            background-color: #ff6f61; /* Accent color */
+            color: white;
+            font-weight: 700;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            margin: 2rem 0;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(255, 111, 97, 0.4);
+            font-size: 1.1rem;
+        }
+        .cta-button:hover {
+            background-color: #e65c52;
+            transform: translateY(-3px);
+        }
+
+        /* Tag Cloud / Keyword Section */
+        .keyword-tags {
+            margin: 1.5rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .keyword-tags a {
+            background-color: #e3f2fd;
+            color: #007bff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .keyword-tags a:hover {
+            background-color: #bbdefb;
+        }
+
+        /* FAQ Section (Accordion) */
+        dl {
+            margin-top: 1rem;
+        }
+        dt {
+            background-color: #f0f4f8;
+            padding: 1.2rem 1.5rem;
+            border-radius: 8px;
+            margin-top: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.3s ease;
+            color: #333;
+        }
+        dt::after {
+            content: "+";
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            font-weight: 300;
+        }
+        dt.active::after {
+            content: "-";
+        }
+        dd {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            margin: 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 1rem;
+            line-height: 1.6;
+            display: none;
+        }
+        dt.active + dd {
+            display: block;
+        }
+
+        /* Input Forms for Dwell Time */
+        .input-form {
+            background-color: #f0f4f8;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+        .input-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #4a4a4a;
+        }
+        .input-form input, .input-form select, .input-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2.5rem;
+            font-size: 0.9rem;
+            color: #888;
+            background-color: #e9ecef;
+            border-top: 1px solid #d0d0d0;
+            margin-top: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            nav a {
+                padding: 0.4rem 1rem;
+            }
+            section {
+                padding: 1.5rem;
+            }
+            h2 {
+                font-size: 1.6rem;
+            }
+            h3 {
+                font-size: 1.3rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .input-form input, .input-form select, .input-form textarea {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>34평 아파트 리모델링, 성공적인 변화를 위한 완벽 가이드</h1>
+        <p class="header-subtitle">합리적인 비용으로 2026년 최신 트렌드를 담은 우리 집을 완성하세요.</p>
+        <nav aria-label="메인 메뉴">
+            <ul>
+                <li><a href="#intro">리모델링 소개</a></li>
+                <li><a href="#cost">비용 견적 분석</a></li>
+                <li><a href="#process">공사 프로세스</a></li>
+                <li><a href="#tips">주의사항 및 팁</a></li>
+                <li><a href="#contact">견적 문의</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <main>
-      <h1>Home page</h1>
+        <section id="intro">
+            <h2>34평 아파트, 왜 리모델링이 필수일까요?</h2>
+            <p><strong>34평 아파트 리모델링</strong>은 대한민국에서 가장 수요가 높은 주거 공간 혁신입니다. 30평대 아파트는 보통 3~4인 가구가 거주하며, 아이들의 성장, 부부의 노후 준비, 주거 트렌드 변화에 맞춰 공간의 재구성이 필요합니다. 10년 이상 된 구축 아파트라면 단순히 인테리어를 바꾸는 것을 넘어, 노후된 배관과 난방 시스템을 개선하는 <strong>올수리</strong>가 필수적입니다. 2026년 현재, 단순히 예쁜 집을 넘어 기능성과 친환경성을 중시하는 트렌드가 강해지면서, 34평 리모델링은 단순한 주거 수리를 넘어 삶의 질을 높이는 투자로 인식되고 있습니다.</p>
+
+            <h3>34평 리모델링, 장점과 단점은?</h3>
+            <p><strong>장점:</strong> 34평 아파트는 공간 효율성이 높습니다. 리모델링을 통해 주방과 거실을 확장하여 개방감을 확보하거나, 안방 옆 알파룸을 드레스룸, 서재, 홈짐 등으로 활용할 수 있습니다. 신축 아파트에서는 보기 힘든 독특한 구조나 넓은 서비스 면적을 살려 개성 있는 인테리어를 구현할 수 있다는 점도 큰 <strong>장점</strong>입니다. 특히 구축 아파트의 경우, <strong>단열</strong>과 <strong>방수</strong> 개선을 통해 난방비 절감 효과까지 누릴 수 있습니다.
+            </p>
+            <p><strong>단점:</strong> <strong>34평 리모델링</strong>은 짐이 많아 보관이사나 철거 비용이 추가될 수 있으며, 공사 기간 동안 거주할 곳을 마련해야 합니다. 또한, 아파트 공사 특성상 층간 소음이나 공동주택 관리 규정(비내력벽 철거 허가, 발코니 확장 행위허가)을 준수해야 하므로, 철저한 사전 준비가 필요합니다. <strong>내돈내산 후기</strong>를 보면, 예상치 못한 추가 비용 발생이나 시공업체와의 분쟁이 <strong>단점</strong>으로 지적되기도 합니다.</p>
+
+            <div class="keyword-tags" aria-label="관련 인테리어 키워드">
+                <a href="#cost">34평 아파트 리모델링 비용</a>
+                <a href="#process">34평 올수리 견적</a>
+                <a href="#cost">30평대 인테리어 평균 금액</a>
+                <a href="#tips">34평 리모델링 업체 순위</a>
+                <a href="#process">아파트 리모델링 공사 기간</a>
+                <a href="#tips">인테리어 내돈내산 후기</a>
+                <a href="#cost">34평 리모델링 저렴한 곳</a>
+                <a href="#process">34평 아파트 부분 리모델링</a>
+            </div>
+        </section>
+
+        <section id="cost">
+            <h2>34평 리모델링 비용 견적 완벽 분석 (2026년 기준)</h2>
+            <p><strong>34평 리모델링 비용</strong>은 천차만별입니다. <strong>예상 금액</strong>을 산정하기 위해서는 <strong>전체 올수리</strong>인지, <strong>부분 리모델링</strong>인지부터 정해야 합니다. 일반적으로 평당 150만원에서 250만원 사이를 <strong>평균</strong>으로 잡지만, 자재의 등급과 시공 범위에 따라 <strong>얼마</strong>든지 달라질 수 있습니다. 아래 표는 2026년 기준 34평 아파트 리모델링의 대략적인 예산별 견적입니다.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>예산 범위</th>
+                        <th>시공 범위 및 자재 등급</th>
+                        <th>주요 시공 항목</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>가성비형 (3,000만 원대)</strong></td>
+                        <td>필수 마감재 교체 및 최소 기능 보강.</td>
+                        <td>도배(합지), 장판/강마루, 욕실 2곳 기본 교체, 주방 싱크대(기본형), 조명(LED), 문짝 필름 시공.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>표준형 (4,000~5,000만 원대)</strong></td>
+                        <td>전체 올수리(올교체) 진행. 내구성이 검증된 중급 자재 사용.</td>
+                        <td>도배(실크벽지), 강마루/헤링본 마루, 욕실 2곳 전체 리모델링(젠다이 포함), 주방 싱크대(중급형), 전체 몰딩/문틀 교체, 현관 중문 설치, 간접조명 시공.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>프리미엄형 (6,000만 원 이상)</strong></td>
+                        <td>친환경 자재, 수입 타일, 시스템 가구, 구조 변경(비내력벽 철거) 등 고급 옵션 적용.</td>
+                        <td>포세린 타일 바닥, 전체 샷시 교체, 빌트인 가전 포함 주방, 욕실 고급 수입 자재 사용, 시스템 에어컨, 맞춤 가구 및 아트월 시공.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>※ 위의 <strong>금액</strong>은 자재비와 인건비만을 포함한 대략적인 <strong>예상</strong>이며, 철거 및 폐기물 처리, 샷시 교체, 확장 공사 여부에 따라 총 <strong>견적</strong>은 크게 달라질 수 있습니다. 특히 <strong>저렴한곳</strong>만 찾다가는 하자 보수에서 어려움을 겪을 수 있으니, 시공 실적과 <strong>후기</strong>를 꼼꼼히 확인해야 합니다.</p>
+
+            <h3>34평 리모델링 공사 비용 절감 팁: 싼곳 찾기보다 합리적으로!</h3>
+            <p><strong>34평 인테리어</strong> 예산을 아끼는 방법은 무조건 <strong>저렴한곳</strong>을 찾는 것이 아니라, 우선순위를 정해 불필요한 공정을 줄이는 것입니다.</p>
+            <ul>
+                <li><strong>필름 시공 활용:</strong> 문짝, 싱크대 도어, 샤시 틀을 교체하는 대신 인테리어 필름으로 래핑하면 <strong>비용</strong>을 획기적으로 줄일 수 있습니다. 특히 최근에는 내구성이 높은 필름(고시트 필름)이 많이 나와 <strong>가성비</strong>가 좋습니다.</li>
+                <li><strong>철거 최소화:</strong> 철거는 <strong>리모델링 비용</strong>에서 큰 비중을 차지합니다. 기존의 마감재(ex. 타일, 장판) 위에 덧방 시공이 가능한 경우(ex. 덧방 타일 시공, 마루 덧시공)는 철거를 생략하여 비용을 아낄 수 있습니다.</li>
+                <li><strong>조명 변경:</strong> LED 매립등이나 간접 조명만으로도 집안 분위기를 완전히 바꿀 수 있습니다.</li>
+                <li><strong>업체 비교 견적:</strong> <strong>내돈내산</strong> <strong>후기</strong>를 보면, 최소 2~3곳 이상의 <strong>34평 리모델링 업체</strong>에서 <strong>견적</strong>을 받아보는 것이 중요합니다. 견적서에 포함 항목과 제외 항목을 명확히 확인하여 <strong>추가 비용</strong> 발생을 막아야 합니다.</li>
+            </ul>
+        </section>
+
+        <section id="process">
+            <h2>34평 아파트 리모델링 공정별 진행 순서 (A to Z)</h2>
+            <p><strong>34평 올수리</strong>는 보통 3주에서 4주(20~30일) 정도의 <strong>공사 기간</strong>이 소요됩니다. 철저한 계획과 순서대로 진행해야 효율적이며, <strong>하자 보수</strong>를 줄일 수 있습니다. 공정의 순서가 잘못되면 추가 비용과 <strong>기간</strong> 지연이 발생할 수 있으므로, 전문가와 상의하여 일정을 조율하는 것이 중요합니다.</p>
+
+            <h3>리모델링 공정 순서 및 소요 기간 (표준형 기준)</h3>
+            <p>아래는 일반적인 34평 리모델링 공정별 <strong>소요 기간</strong>입니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>공정</th>
+                        <th>세부 내용</th>
+                        <th>예상 기간 (영업일 기준)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1단계: 철거 및 폐기물 처리</strong></td>
+                        <td>기존 마감재, 가구, 욕실 철거, 폐기물 반출 (공사 소음 최다 발생)</td>
+                        <td>1~3일</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2단계: 설비 및 창호(샷시) 공사</strong></td>
+                        <td>발코니 확장 공사, 샷시 교체, 배관 수정, 방수 작업(욕실/주방)</td>
+                        <td>2~4일</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3단계: 목공사 및 전기/조명 설비</strong></td>
+                        <td>천장 평탄화, 몰딩, 문틀 교체, 가벽 설치, 콘센트/조명 위치 변경 및 배선 작업</td>
+                        <td>4~6일</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4단계: 타일 공사</strong></td>
+                        <td>욕실, 주방, 현관 바닥 및 벽면 타일 시공 (건조 시간 필요)</td>
+                        <td>3~5일</td>
+                    </tr>
+                    <tr>
+                        <td><strong>5단계: 마감 공사 (도배/바닥)</strong></td>
+                        <td>도배(벽지), 바닥재(마루/장판) 시공</td>
+                        <td>2~4일</td>
+                    </tr>
+                    <tr>
+                        <td><strong>6단계: 가구 및 조명 설치</strong></td>
+                        <td>주방 싱크대, 붙박이장 설치, 조명 최종 마감</td>
+                        <td>2~3일</td>
+                    </tr>
+                    <tr>
+                        <td><strong>7단계: 입주 청소 및 잔금 정산</strong></td>
+                        <td>준공 청소 및 최종 점검, 잔금 지급</td>
+                        <td>1~2일</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>총 <strong>공사 기간</strong>은 자재 수급 상황이나 현장 여건에 따라 변동될 수 있습니다. 특히 <strong>비내력벽 철거</strong>와 같은 구조 변경 공사가 포함되면 인허가 절차가 추가되어 <strong>리모델링 기간</strong>이 늘어날 수 있습니다.</p>
+        </section>
+
+        <section id="tips">
+            <h2>34평 리모델링 업체 선정 팁과 주의사항</h2>
+            <p>성공적인 <strong>34평 인테리어</strong>를 위해서는 신뢰할 수 있는 <strong>인테리어 업체 추천</strong>이 필수입니다. <strong>내돈내산</strong> <strong>후기</strong>를 보면, <strong>싼곳</strong> 위주로 찾다가 오히려 <strong>하자 보수</strong>나 추가 <strong>금액</strong> 요구로 낭패를 보는 경우가 많습니다. 다음은 업체 선정 시 반드시 확인해야 할 <strong>주의사항</strong>입니다.</p>
+
+            <h3>리모델링 업체 선정 체크리스트</h3>
+            <ul class="check-list">
+                <li><strong>실내건축공사업 면허 확인:</strong> 1,500만 원 이상의 공사(34평 올수리 대부분 해당)는 <strong>실내건축공사업 면허</strong>를 보유한 업체만 시공할 수 있습니다. 면허 없이 시공하는 업체를 피해야 법적 보호를 받을 수 있습니다.</li>
+                <li><strong>견적서 세부 내역 확인:</strong> 견적서에 자재의 브랜드, 스펙, 수량, 공사 범위 등이 명확하게 명시되어 있는지 확인해야 합니다. '일체'나 '포함' 등의 모호한 표현은 추후 추가 <strong>비용</strong> 발생의 원인이 됩니다.</li>
+                <li><strong>하자 보수 기간 명시:</strong> 계약서에 <strong>하자 보수 기간</strong>과 범위(예: 샷시 5년, 목공/가구 1년 등)를 명확히 기재해야 합니다. <strong>하자 보수</strong>를 위한 <strong>가입</strong> 여부(예: SGI 서울보증)를 확인하는 것도 중요합니다.</li>
+                <li><strong>직영 시공 여부:</strong> 견적부터 시공까지 직접 책임지는 <strong>직영 시공팀</strong>이 있는 업체를 <strong>추천</strong>합니다. 하도급 업체에 재하청을 주는 경우 시공 품질이 떨어지고 책임 소재가 불분명해질 수 있습니다.</li>
+            </ul>
+
+            <h3>아파트 리모델링 시 법률 및 이웃 동의 주의사항</h3>
+            <p>공동주택인 아파트는 법적 규제가 까다롭습니다. 특히 <strong>34평 아파트 리모델링</strong> 시 <strong>주의사항</strong>은 다음과 같습니다.</p>
+            <ul>
+                <li><strong>관리사무소 사전 승인:</strong> 공사 전 반드시 관리사무소에 방문하여 <strong>리모델링 규약</strong>을 확인해야 합니다. 엘리베이터 사용료, 공사 가능 시간, 주민 동의서 양식 등이 아파트마다 다릅니다.</li>
+                <li><strong>주민 동의서:</strong> 소음 발생으로 인한 이웃 민원을 방지하기 위해 <strong>주민 동의서</strong>를 받아야 합니다. 공사 범위에 따라 동의서 기준(예: 동일 라인 세대 50% 동의, 동 전체 50% 동의)이 달라지므로, 관리사무소와 협의해야 합니다.</li>
+                <li><strong>발코니 확장 및 비내력벽 철거 (행위허가):</strong> <strong>34평 아파트 확장</strong> 공사는 반드시 구청에 <strong>행위허가</strong>를 받아야 합니다. 비내력벽이라 해도 함부로 철거해서는 안 되며, 반드시 전문가의 구조 안전 진단 후 진행해야 합니다.</li>
+            </ul>
+        </section>
+
+        <section id="regional-keywords">
+            <h2>전국 34평 리모델링 지역별 견적 비교 및 추천 업체</h2>
+            <p><strong>34평 리모델링</strong>의 <strong>평균 금액</strong>은 지역별로 큰 <strong>차이점</strong>을 보입니다. 인건비, 자재 유통 비용, 시장 경쟁도에 따라 <strong>견적</strong>이 달라지기 때문입니다. 저희는 전국 주요 도시 및 지역에서 활동하는 <strong>34평 인테리어 잘하는 곳 추천</strong> 네트워크를 보유하고 있습니다.</p>
+            <p><strong>서울 34평 리모델링:</strong> 서울은 <strong>강남</strong>, <strong>서초</strong>, <strong>송파</strong> 등 강남권과 <strong>마포</strong>, <strong>용산</strong>, <strong>성동</strong> 등 신흥 주거지의 인테리어 트렌드가 빠르게 변화합니다. <strong>서울 34평 리모델링 비용</strong>은 인건비와 자재 유통 비용이 높아 전국 평균보다 높게 형성되는 경향이 있습니다. 특히 <strong>잠실</strong>, <strong>반포</strong> 지역의 <strong>34평 인테리어</strong>는 고급 자재를 선호하는 경향이 있어 <strong>예상 금액</strong>을 넉넉히 잡아야 합니다. <strong>서울 저렴한곳</strong>을 찾으려 하기보다는 시공 경험이 풍부한 <strong>업체 추천</strong>을 받아 <strong>내돈내산 후기</strong>를 참고하는 것이 좋습니다.</p>
+            <p><strong>경기도 34평 리모델링:</strong> 경기도는 <strong>분당</strong>, <strong>일산</strong>, <strong>평촌</strong> 등 1기 신도시부터 <strong>수원</strong>, <strong>용인</strong>, <strong>화성</strong>, <strong>김포</strong> 등 신규 택지지구까지 <strong>34평 아파트</strong>가 밀집해 있습니다. <strong>경기도 34평 리모델링 평균 금액</strong>은 서울에 비해 다소 낮지만, <strong>분당</strong>, <strong>일산</strong> 지역은 서울 못지않게 고급 인테리어를 선호하는 <strong>장점</strong>이 있습니다. <strong>경기도 광주</strong>, <strong>하남</strong>, <strong>남양주</strong> 등 외곽 지역은 <strong>저렴한곳</strong>을 찾는 수요가 많지만, 교통비와 물류비에 따라 <strong>금액</strong> 변동폭이 클 수 있습니다. <strong>가입</strong> 시 정확한 <strong>견적</strong>을 확인하세요.</p>
+            <p><strong>부산 34평 리모델링:</strong> 부산은 <strong>해운대</strong>, <strong>마린시티</strong> 등 고급 주거지와 <strong>동래</strong>, <strong>사상</strong> 등 지역별 특성이 뚜렷합니다. <strong>부산 34평 리모델링 비용</strong>은 서울보다는 저렴하지만, <strong>해운대</strong> 지역은 <strong>고급 인테리어</strong> 수요가 높습니다. <strong>부산 34평 인테리어 잘하는 곳 추천</strong>을 받으려면 지역 내 시공 사례를 확인하는 것이 중요합니다.</p>
+            <p><strong>대구 34평 리모델링:</strong> <strong>대구 34평 인테리어</strong>는 <strong>수성구</strong> 지역의 수요가 높습니다. <strong>대구 리모델링 업체 순위</strong>를 검색할 때 <strong>내돈내산 후기</strong>와 <strong>하자 보수</strong>를 꼼꼼히 체크해야 합니다.</p>
+            <p><strong>인천 34평 리모델링:</strong> <strong>인천</strong>은 <strong>송도</strong>, <strong>청라</strong> 등 국제도시와 <strong>부평</strong>, <strong>계양</strong> 등 기존 주거지의 <strong>34평 리모델링</strong> 수요가 많습니다. <strong>인천 34평 올수리 비용</strong>은 지역별 <strong>차이점</strong>이 있습니다.</p>
+            <p>그 외 지역: <strong>대전</strong>, <strong>광주</strong>, <strong>울산</strong>, <strong>세종</strong>, <strong>청주</strong>, <strong>전주</strong>, <strong>창원</strong> 등 전국 각지의 <strong>34평 리모델링</strong> <strong>예상 금액</strong> 및 <strong>추천</strong> 업체를 문의하시면 맞춤형 상담을 제공합니다. <strong>강원</strong>, <strong>충북</strong>, <strong>충남</strong>, <strong>전북</strong>, <strong>전남</strong>, <strong>경북</strong>, <strong>경남</strong>, <strong>제주</strong> 등 지역별 시공 사례와 <strong>장단점</strong>을 비교하여 최적의 선택을 돕겠습니다.</p>
+        </section>
+
+        <section id="faq">
+            <h2>자주 묻는 질문 (FAQ)</h2>
+            <p><strong>34평 리모델링</strong>을 앞둔 고객님들이 <strong>네이버 지식iN</strong>에서 <strong>'34평 아파트 리모델링 비용'</strong> 키워드로 가장 많이 질문하는 내용들을 정리했습니다.</p>
+            <dl>
+                <dt tabindex="0" aria-expanded="false">Q1: 34평 전체 리모델링과 부분 리모델링의 가장 큰 <strong>차이점</strong>은 무엇인가요?</dt>
+                <dd><strong>A:</strong> <strong>전체 리모델링(올수리)</strong>은 모든 마감재(벽지, 바닥재, 조명, 몰딩 등)와 설비(주방, 욕실, 샷시)를 교체하는 것을 의미합니다. 반면 <strong>부분 리모델링</strong>은 주방이나 욕실 등 특정 공간만 수리하는 것입니다. <strong>34평 올수리</strong>는 10년 이상 된 구축 아파트에 적합하며, <strong>부분 리모델링</strong>은 비교적 최근에 지어진 아파트나 예산이 타이트한 경우에 <strong>추천</strong>됩니다. <strong>내돈내산 후기</strong>를 보면, 부분 리모델링은 전체적인 조화가 깨질 수 있다는 <strong>단점</strong>이 있습니다.</dd>
+                <dt tabindex="0" aria-expanded="false">Q2: <strong>34평 아파트 리모델링</strong> 중 <strong>추가 비용</strong>이 발생하는 주된 이유는 무엇인가요?</dt>
+                <dd><strong>A:</strong> 추가 <strong>금액</strong> 발생의 90% 이상은 '노후된 설비' 때문입니다. 특히 20년 이상 된 아파트는 철거 후 배관(난방 배관, 수도 배관) 상태가 좋지 않아 배관 교체가 필요하거나, 샷시 철거 후 누수가 발견되는 경우가 많습니다. 이 외에도 고객님의 변심으로 인한 자재 변경이나 공사 범위 추가도 <strong>추가 비용</strong>의 주된 원인입니다. 계약서 작성 시 견적 항목을 꼼꼼히 확인하고, 미리 여유 예산을 확보하는 것이 좋습니다.</dd>
+                <dt tabindex="0" aria-expanded="false">Q3: <strong>34평 인테리어</strong> 진행 시 <strong>2026년 트렌드</strong>는 무엇인가요?</dt>
+                <dd><strong>A:</strong> 2026년 <strong>30평대 인테리어 트렌드</strong>는 <strong>기능성</strong>과 <strong>미니멀리즘</strong>, 그리고 <strong>친환경</strong>입니다. <strong>2026년</strong>에는 인테리어에서도 친환경 자재 사용, 스마트홈 기술(스마트 윈도우, IoT 조명)이 보편화될 것으로 예상됩니다. 또한 거실을 서재나 홈카페로 활용하는 다기능 공간 구성과 자연에서 영감을 받은 어스 톤(테라코타, 올리브 그린)의 컬러 매치가 <strong>장점</strong>으로 꼽힙니다.</dd>
+                <dt tabindex="0" aria-expanded="false">Q4: <strong>34평 리모델링 업체 순위</strong>와 <strong>내돈내산 후기</strong>는 어디서 확인하나요?</dt>
+                <dd><strong>A:</strong> <strong>인테리어 업체 순위</strong>를 공식적으로 매기는 기준은 없습니다. <strong>내돈내산 후기</strong>는 인테리어 플랫폼이나 블로그, 커뮤니티에서 확인할 수 있습니다. 중요한 것은 단순한 <strong>순위</strong>나 <strong>추천</strong>보다는 해당 업체의 시공 포트폴리오(특히 <strong>34평 아파트</strong> 시공 경험), 견적의 투명성, <strong>하자 보수</strong>를 위한 계약 사항 등을 종합적으로 평가해야 합니다.</dd>
+            </dl>
+        </section>
+
+        <section id="contact">
+            <h2>34평 리모델링 무료 견적 및 상담 신청</h2>
+            <p><strong>34평 아파트 리모델링</strong>은 고객님의 라이프스타일을 반영한 맞춤형 설계가 중요합니다. 정확한 <strong>리모델링 예상 금액</strong>을 산정하기 위해서는 현장 실측이 필수입니다. <strong>전국 34평 인테리어 잘하는 곳 추천</strong>을 원하시면 지금 바로 전문가와 상담하세요.</p>
+            <div class="input-form">
+                <form action="#" method="post">
+                    <h3>리모델링 무료 견적 요청서</h3>
+                    <p>아래 정보를 입력하시면, <strong>34평 리모델링</strong> 전문 매니저가 연락드려 맞춤형 견적을 안내해 드립니다.</p>
+                    <label for="name">이름:</label>
+                    <input type="text" id="name" name="name" required placeholder="예: 홍길동">
+
+                    <label for="phone">연락처:</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="예: 010-1234-5678">
+
+                    <label for="region">거주 지역 (이사 예정 지역):</label>
+                    <select id="region" name="region" required>
+                        <option value="">지역 선택</option>
+                        <option value="서울">서울</option>
+                        <option value="경기">경기도 (수원, 분당, 일산, 용인, 화성 등)</option>
+                        <option value="인천">인천</option>
+                        <option value="부산">부산</option>
+                        <option value="대구">대구</option>
+                        <option value="대전">대전</option>
+                        <option value="광주">광주</option>
+                        <option value="울산">울산</option>
+                        <option value="세종">세종</option>
+                        <option value="강원">강원도</option>
+                        <option value="충청">충청도 (청주, 천안 등)</option>
+                        <option value="전라">전라도 (전주, 광양 등)</option>
+                        <option value="경상">경상도 (창원, 김해 등)</option>
+                        <option value="제주">제주</option>
+                    </select>
+
+                    <label for="apartment">아파트 평수 및 연식 (예: 34평, 15년차):</label>
+                    <input type="text" id="apartment" name="apartment" required placeholder="예: 34평, 20년차">
+
+                    <label for="scope">리모델링 희망 범위:</label>
+                    <select id="scope" name="scope" required>
+                        <option value="">범위 선택</option>
+                        <option value="전체 올수리">전체 올수리 (Full Remodeling)</option>
+                        <option value="부분 리모델링">부분 리모델링 (주방+욕실 등)</option>
+                        <option value="가구/스타일링">가구 및 스타일링만</option>
+                    </select>
+
+                    <label for="message">추가 문의사항:</label>
+                    <textarea id="message" name="message" rows="4" placeholder="자세한 내용을 남겨주시면 정확한 상담에 도움이 됩니다."></textarea>
+
+                    <button type="submit" class="submit-btn">견적 상담 신청하기</button>
+                </form>
+            </div>
+            <a href="tel:01012345678" class="cta-button" aria-label="전화로 견적 상담받기">전화로 바로 상담받기 📞</a>
+        </section>
+
+        <section class="external-links">
+            <h2>리모델링 관련 유용한 정보 출처</h2>
+            <p><strong>34평 리모델링</strong> 시공 전, 신뢰할 수 있는 외부 자료를 통해 정확한 정보를 습득하세요.</p>
+            <ul>
+                <li><a href="https://www.ftc.go.kr/www/cpw/service/selectBusi.do?key=670&busiType=08" target="_blank">공정거래위원회 실내건축·창호 공사 표준계약서 (법률 정보)</a></li>
+                <li><a href="https://www.molit.go.kr/" target="_blank">국토교통부 (아파트 관리 규약 및 행위허가 관련 법률 정보)</a></li>
+                <li><a href="https://namu.wiki/w/%EC%9D%B8%ED%85%8C%EB%A6%AC%EC%96%B4" target="_blank">인테리어 시공 프로세스 관련 나무위키 정보</a></li>
+                <li><a href="https://cafe.naver.com/miznett" target="_blank">네이버 대표 인테리어 카페 (실제 후기, 정보 공유)</a></li>
+                <li><a href="https://yourdomain.com/blog/remodeling_checklist" target="_blank">우리 업체가 제공하는 리모델링 체크리스트 블로그 게시글</a></li>
+            </ul>
+        </section>
     </main>
-  </body>
-</html>
+
+    <script>
+        // FAQ 아코디언 기능 (접기/펼치기)
+        document.querySelectorAll('dl dt').forEach((dt) => {
+            dt.addEventListener('click', () => {
+                const isActive = dt.classList.contains('active');
+                document.querySelectorAll('dl dt').forEach(item => {
+                    item.classList.remove('active');
+                    item.setAttribute('aria-expanded', 'false');
+                });
+                if (!isActive) {
+                    dt.classList.add('active');
+                    dt.setAttribute('aria-expanded', 'true');
+                }
+            });
+            dt.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    dt.click();
+                }
+            });
+        });
+    </script>
+
+  
